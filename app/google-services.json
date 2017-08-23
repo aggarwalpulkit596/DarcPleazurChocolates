@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1066892197413",
+    "firebase_url": "https://darcpleazur-chocolates.firebaseio.com",
+    "project_id": "darcpleazur-chocolates",
+    "storage_bucket": "darcpleazur-chocolates.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066892197413:android:e8a007da4df79092",
+        "android_client_info": {
+          "package_name": "com.example.pulkit.darcpleazurchocolates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066892197413-vfe241iqcd6teb4rl2tft79klfjqtktg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pulkit.darcpleazurchocolates",
+            "certificate_hash": "13b9e817399e40a37ea6694b60a01947545c5bb7"
+          }
+        },
+        {
+          "client_id": "1066892197413-q75cie70reer0h7r51phpc3lh0r0suso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9nfVWeqlljlUrz2PvawrgDkvVOotxlik"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066892197413-q75cie70reer0h7r51phpc3lh0r0suso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
