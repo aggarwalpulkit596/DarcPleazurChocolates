@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
     tools:context="com.example.pulkit.darcpleazurchocolates.LogInActivity">
 
     <LinearLayout
@@ -12,19 +13,29 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <Button
+            android:id="@+id/btn_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_gravity="end"
+            android:text="Continue As Guest"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent" />
 
 
         <ImageView
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
-            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
             android:src="@mipmap/ic_launcher"
             tools:ignore="ContentDescription" />
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content">
 
             <EditText
@@ -39,7 +50,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content">
 
             <EditText
@@ -57,22 +68,34 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
             android:background="@color/colorAccent"
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
-
         <Button
             android:id="@+id/btn_reset_password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_width="250dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="10dp"
             android:background="@null"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_gSignIn"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/button_facebook_login"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_centerInParent="true" />
+
 
         <!-- Link to Login Screen -->
 
@@ -80,7 +103,6 @@
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
