@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:layout_gravity="end"
-            android:text="Continue As Guest"
+            android:text="Continue As Guest >>"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
 
@@ -89,13 +89,6 @@
             android:layout_height="43dp"
             android:layout_marginTop="10dp"
             android:layout_centerInParent="true" />
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/button_facebook_login"
-            android:layout_width="250dp"
-            android:layout_height="43dp"
-            android:layout_centerInParent="true" />
-
 
         <!-- Link to Login Screen -->
 
