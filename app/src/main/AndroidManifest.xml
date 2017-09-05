@@ -11,17 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".LogInActivity"
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".LogInActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity android:name=".ResetPasswordActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResetPasswordActivity" />
     </application>
 
 </manifest>
