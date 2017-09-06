@@ -92,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     final String userId = mAuth.getCurrentUser().getUid();
                                     User user = new User("Pulkit Aggarwal",email+"","9582054664");
                                     mDatabase.child("users").child(userId).setValue(user);
-                                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                    startActivity(new Intent(SignUpActivity.this, Main2Activity.class));
                                     finish();
                                 }
                             }

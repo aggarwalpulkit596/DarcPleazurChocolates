@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener {
@@ -32,6 +35,7 @@ public class LogInActivity extends AppCompatActivity implements
     private ProgressBar progressBar;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -40,6 +44,8 @@ public class LogInActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_log_in);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(LogInActivity.this, Main2Activity.class));
@@ -55,7 +61,7 @@ public class LogInActivity extends AppCompatActivity implements
         // [END config_signin]
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         inputEmail = findViewById(R.id.email);
@@ -128,20 +134,20 @@ public class LogInActivity extends AppCompatActivity implements
     }
 
     public void gSignIn() {
-        Log.i("TAG", "gSignIn: kbsldblds"+"here it is");
+        Log.i("TAG", "gSignIn: kbsldblds" + "here it is");
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("TAG", "gSignIn:"+requestCode);
+        Log.i("TAG", "gSignIn:" + requestCode);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Log.i("TAG", "onActivityResult: "+requestCode);
+            Log.i("TAG", "onActivityResult: " + requestCode);
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.i("TAG", "onActivityResult: "+result.getStatus());
+            Log.i("TAG", "onActivityResult: " + result.getStatus());
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 Log.i("TAG", "onActivityResult: ");
@@ -150,24 +156,27 @@ public class LogInActivity extends AppCompatActivity implements
             } else {
                 // Google Sign In failed, update UI appropriately
                 // [START_EXCLUDE]
-                Log.i("TAG", "gSignIn: kbsldblds"+"here it is3");
-             // [END_EXCLUDE]
+                Log.i("TAG", "gSignIn: kbsldblds" + "here it is3");
+                // [END_EXCLUDE]
             }
         }
     }
+
     // [END onactivityresult]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
-        Log.i("TAG", "firebaseAuthWithGoogle: abcdef");
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        final AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                            final String userId = mAuth.getCurrentUser().getUid();
+                            User user = new User("Pulkit Aggarwal", credential + "", "9582054664");
+                            mDatabase.child("users").child(userId).setValue(user);
+                            Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
