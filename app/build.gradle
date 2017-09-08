@@ -25,15 +25,17 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Firebase Authentication
-    compile 'com.google.firebase:firebase-auth:11.2.0'
-    compile 'com.google.firebase:firebase-database:11.2.0'
-
-    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.google.firebase:firebase-auth:11.2.2'
+    compile 'com.google.firebase:firebase-database:11.2.2'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     // Google Sign In SDK (only required for Google Sign In)
-    compile 'com.google.android.gms:play-services-auth:11.2.0'
+    compile 'com.google.android.gms:play-services-auth:11.2.2'
     compile 'com.facebook.android:facebook-android-sdk:4.25.0'
-    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:design:26.0.2'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

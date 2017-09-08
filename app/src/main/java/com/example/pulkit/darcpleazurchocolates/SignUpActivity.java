@@ -21,8 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private EditText inputEmail, inputPassword;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
+    private EditText inputEmail, inputPassword,confirmPassword;
+    private Button btnSignIn, btnSignUp;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase;
 
@@ -37,19 +37,12 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.sign_up_button);
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
+        confirmPassword = findViewById(R.id.confirmpassword);
         progressBar = findViewById(R.id.progressBar);
-        btnResetPassword = findViewById(R.id.btn_reset_password);
-
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
-            }
-        });
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, ResetPasswordActivity.class));
             }
         });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                String cPassword = confirmPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     inputEmail.setError("Enter email address!");
@@ -66,6 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(password)) {
                     inputPassword.setError("Enter password!");
+                    return;
+                }
+                if(!TextUtils.equals(password,cPassword)){
+                    confirmPassword.setError("Passwords do not match !!!");
                     return;
                 }
 
