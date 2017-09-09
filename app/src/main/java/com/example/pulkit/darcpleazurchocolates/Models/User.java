@@ -1,4 +1,4 @@
-package com.example.pulkit.darcpleazurchocolates;
+package com.example.pulkit.darcpleazurchocolates.Models;
 
 /**
  * Created by Pulkit on 9/6/2017.

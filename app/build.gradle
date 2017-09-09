@@ -31,6 +31,11 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.firebaseui:firebase-ui-database:2.0.1'
+    compile 'com.android.support:cardview-v7:26.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     // Google Sign In SDK (only required for Google Sign In)
     compile 'com.google.android.gms:play-services-auth:11.2.2'

@@ -8,14 +8,25 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
+import com.example.pulkit.darcpleazurchocolates.viewHolder.chocolateViewHolder;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class Main2Activity extends AppCompatActivity
@@ -25,11 +36,18 @@ public class Main2Activity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
+    
+    @BindView(R.id.chocoRecyclerView) RecyclerView mRecyclerview;
+    private ArrayList<Chocolates> mChocolates = new ArrayList<>();
+    private FirebaseRecyclerAdapter<Chocolates,chocolateViewHolder> mAdapter;
+    private LinearLayoutManager mManager;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -55,6 +73,12 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mRecyclerview.setHasFixedSize(true);
+        getChocolates();
+    }
+
+    private void getChocolates() {
     }
 
     @Override
@@ -125,6 +149,29 @@ public class Main2Activity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+        mManager = new LinearLayoutManager(this);
+        mRecyclerview.setLayoutManager(mManager);
+        Query chocoQuery = getQuery(mDatabase);
+        mAdapter = new FirebaseRecyclerAdapter<Chocolates, chocolateViewHolder>(Chocolates.class,R.layout.chocolate_list_item,chocolateViewHolder.class,chocoQuery) {
+            @Override
+            protected void populateViewHolder(chocolateViewHolder viewHolder, Chocolates model, int position) {
+                final DatabaseReference chocoRef = getRef(position);
+                
+                if(model.stars.containsKey(getUid())){
+                    viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_24);
+                }else {
+                    viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                }
+                
+                viewHolder.bindChocolate(model, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        
+                    }
+                });
+            }
+        };
+        mRecyclerview.setAdapter(mAdapter);
     }
 
     @Override
@@ -133,5 +180,12 @@ public class Main2Activity extends AppCompatActivity
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    public Query getQuery(DatabaseReference databaseReference) {
+        return databaseReference.child("results");
     }
 }
