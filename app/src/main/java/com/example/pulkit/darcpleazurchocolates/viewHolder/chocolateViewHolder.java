@@ -3,6 +3,7 @@ package com.example.pulkit.darcpleazurchocolates.viewHolder;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,10 +39,12 @@ public class chocolateViewHolder extends RecyclerView.ViewHolder {
     @SuppressLint("SetTextI18n")
     public void bindChocolate(Chocolates chocolates, View.OnClickListener starClickListener) {
         Picasso.with(mContext)
-                .load(chocolates.getImages().get(0))
+                .load(chocolates.getImages().get(1))
                 .centerCrop()
                 .resize(200, 200)
                 .into(mChocolateImageView);
+        Log.i("TAG", "chocolates: "+chocolates.getName()+chocolates.getImages());
+
         mNameTextView.setText(chocolates.getName());
         mPriceTextView.setText(chocolates.getPrice());
         mStarView.setOnClickListener(starClickListener);

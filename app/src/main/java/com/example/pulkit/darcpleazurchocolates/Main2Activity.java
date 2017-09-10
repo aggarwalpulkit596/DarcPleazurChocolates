@@ -8,9 +8,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +40,9 @@ public class Main2Activity extends AppCompatActivity
     private DatabaseReference mDatabase;
     
     @BindView(R.id.chocoRecyclerView) RecyclerView mRecyclerview;
-    private ArrayList<Chocolates> mChocolates = new ArrayList<>();
     private FirebaseRecyclerAdapter<Chocolates,chocolateViewHolder> mAdapter;
     private LinearLayoutManager mManager;
+    private GridLayoutManager nManager;
     
     
     @Override
@@ -75,10 +77,6 @@ public class Main2Activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mRecyclerview.setHasFixedSize(true);
-        getChocolates();
-    }
-
-    private void getChocolates() {
     }
 
     @Override
@@ -150,12 +148,15 @@ public class Main2Activity extends AppCompatActivity
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
         mManager = new LinearLayoutManager(this);
+        nManager = new GridLayoutManager(this,2);
         mRecyclerview.setLayoutManager(mManager);
         Query chocoQuery = getQuery(mDatabase);
+        Log.i("TAG", "onStart: "+chocoQuery);
         mAdapter = new FirebaseRecyclerAdapter<Chocolates, chocolateViewHolder>(Chocolates.class,R.layout.chocolate_list_item,chocolateViewHolder.class,chocoQuery) {
             @Override
             protected void populateViewHolder(chocolateViewHolder viewHolder, Chocolates model, int position) {
                 final DatabaseReference chocoRef = getRef(position);
+                Log.i("TAG", "onStart: "+chocoRef);
                 
                 if(model.stars.containsKey(getUid())){
                     viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_24);
