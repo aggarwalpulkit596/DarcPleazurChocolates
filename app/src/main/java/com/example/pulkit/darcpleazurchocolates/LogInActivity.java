@@ -1,5 +1,6 @@
 package com.example.pulkit.darcpleazurchocolates;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -106,6 +107,8 @@ public class LogInActivity extends AppCompatActivity implements
                     inputPassword.setError("Enter password!");
                     return;
                 }
+                final ProgressDialog dialog = ProgressDialog.show(LogInActivity.this, "",
+                        "Loading. Please wait...", true);
                 progressBar.setVisibility(View.VISIBLE);
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LogInActivity.this, new OnCompleteListener<AuthResult>() {
@@ -116,6 +119,7 @@ public class LogInActivity extends AppCompatActivity implements
                                 // signed in user can be handled in the listener.
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
+                                    dialog.hide();
                                     // there was an error
                                     if (password.length() < 6) {
                                         inputPassword.setError(getString(R.string.minimum_password));
@@ -123,6 +127,7 @@ public class LogInActivity extends AppCompatActivity implements
                                         Toast.makeText(LogInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    dialog.hide();
                                     Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
                                     startActivity(intent);
                                     finish();
@@ -167,6 +172,8 @@ public class LogInActivity extends AppCompatActivity implements
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
+        final ProgressDialog dialog = ProgressDialog.show(LogInActivity.this, "",
+                "Loading. Please wait...", true);
         final AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -177,10 +184,12 @@ public class LogInActivity extends AppCompatActivity implements
                             final String userId = mAuth.getCurrentUser().getUid();
                             User user = new User("Pulkit Aggarwal", credential + "", "9582054664");
                             mDatabase.child("users").child(userId).setValue(user);
+                            dialog.hide();
                             Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
+                            dialog.hide();
                             Toast.makeText(LogInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }

@@ -35,6 +35,10 @@ public class User {
 
     private String phoneno;
 
+    public User(){
+        // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
+    }
+
 
     public User(String name, String email, String phoneno) {
         this.name = name;

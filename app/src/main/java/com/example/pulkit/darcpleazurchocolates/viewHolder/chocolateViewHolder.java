@@ -24,6 +24,7 @@ public class chocolateViewHolder extends RecyclerView.ViewHolder {
     public ImageView mChocolateImageView;
     public TextView mNameTextView;
     public TextView mPriceTextView;
+    public TextView mStockTextView;
     public ImageView mStarView;
 
 
@@ -33,20 +34,21 @@ public class chocolateViewHolder extends RecyclerView.ViewHolder {
         mNameTextView = itemView.findViewById(R.id.chocolateNameTextView);
         mPriceTextView = itemView.findViewById(R.id.priceTextView);
         mStarView = itemView.findViewById(R.id.star);
+        mStockTextView = itemView.findViewById(R.id.stockTextView);
         mContext = itemView.getContext();
     }
 
-    @SuppressLint("SetTextI18n")
     public void bindChocolate(Chocolates chocolates, View.OnClickListener starClickListener) {
         Picasso.with(mContext)
-                .load(chocolates.getImages().get(1))
+                .load(chocolates.getImages().get(0))
                 .centerCrop()
                 .resize(200, 200)
                 .into(mChocolateImageView);
-        Log.i("TAG", "chocolates: "+chocolates.getName()+chocolates.getImages());
+        Log.i("TAG", "chocolates: " + chocolates.getName() + chocolates.getImages());
 
         mNameTextView.setText(chocolates.getName());
         mPriceTextView.setText(chocolates.getPrice());
         mStarView.setOnClickListener(starClickListener);
+        mStockTextView.setText(chocolates.getStock());
     }
 }

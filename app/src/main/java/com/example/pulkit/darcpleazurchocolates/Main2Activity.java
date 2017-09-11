@@ -38,7 +38,9 @@ public class Main2Activity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    
+    public static final String EXTRA_CHOCO = "choco";
+    public static final String POSITION = "";
+
     @BindView(R.id.chocoRecyclerView) RecyclerView mRecyclerview;
     private FirebaseRecyclerAdapter<Chocolates,chocolateViewHolder> mAdapter;
     private LinearLayoutManager mManager;
@@ -152,12 +154,26 @@ public class Main2Activity extends AppCompatActivity
         mRecyclerview.setLayoutManager(mManager);
         Query chocoQuery = getQuery(mDatabase);
         Log.i("TAG", "onStart: "+chocoQuery);
+
         mAdapter = new FirebaseRecyclerAdapter<Chocolates, chocolateViewHolder>(Chocolates.class,R.layout.chocolate_list_item,chocolateViewHolder.class,chocoQuery) {
             @Override
-            protected void populateViewHolder(chocolateViewHolder viewHolder, Chocolates model, int position) {
+            protected void populateViewHolder(chocolateViewHolder viewHolder, final Chocolates model, final int position) {
                 final DatabaseReference chocoRef = getRef(position);
                 Log.i("TAG", "onStart: "+chocoRef);
-                
+                Log.i("TAG", "onStart: "+model);
+
+
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(),ChocoDetailActivity.class);
+                        intent.putExtra(Main2Activity.EXTRA_CHOCO,model);
+                        intent.putExtra(Main2Activity.POSITION,chocoRef.getKey());
+                        startActivity(intent);
+
+                    }
+                });
+
                 if(model.stars.containsKey(getUid())){
                     viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_24);
                 }else {

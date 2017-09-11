@@ -1,6 +1,5 @@
 package com.example.pulkit.darcpleazurchocolates.Models;
 
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
@@ -17,12 +16,22 @@ import java.util.Map;
 public class Chocolates implements Serializable {
     private String name;
     private String price;
+    private String stock;
+    private String description;
     private List<String> images = new ArrayList<>();
     public Map<String, Boolean> stars = new HashMap<>();
 
 
     public Chocolates() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 
     public String getName() {
@@ -49,9 +58,19 @@ public class Chocolates implements Serializable {
         this.images = images;
     }
 
-    public Chocolates(String name, String price, List<String> images) {
+    public Chocolates(String name, String price, String stock, String description, List<String> images) {
         this.name = name;
         this.price = price;
+        this.stock = stock;
+        this.description = description;
         this.images = images;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
