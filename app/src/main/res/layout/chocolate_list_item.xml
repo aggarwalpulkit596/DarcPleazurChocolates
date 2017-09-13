@@ -49,13 +49,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <RatingBar
                     android:id="@+id/star"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_toggle_star_outline_24" />
+                    android:numStars="5"
+                    style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                    android:isIndicator="true"
+                    android:rating="2.7"
+                    android:layout_alignParentBottom="true"/>
 
             </RelativeLayout>
         </LinearLayout>

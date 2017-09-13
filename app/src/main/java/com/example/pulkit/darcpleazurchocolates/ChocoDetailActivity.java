@@ -1,6 +1,13 @@
 package com.example.pulkit.darcpleazurchocolates;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,6 +40,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +61,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
     Button mReviewButton;
     @BindView(R.id.recycler_reviews)
     RecyclerView mReviewsRecycler;
+    Bitmap bitmap;
 
     private ReviewAdapter mAdapter;
     private DatabaseReference mReviewsReference;
@@ -62,7 +73,6 @@ public class ChocoDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         if (getIntent().hasExtra(Main2Activity.EXTRA_CHOCO)) {
             mChoco = (Chocolates) getIntent().getSerializableExtra(Main2Activity.EXTRA_CHOCO);
             position = (String) getIntent().getSerializableExtra(Main2Activity.POSITION);
@@ -80,6 +90,15 @@ public class ChocoDetailActivity extends AppCompatActivity {
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(3000);
+        mDemoSlider.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                bitmap = mDemoSlider.getDrawingCache();
+                AlertDialog dialog = (AlertDialog) optionDialog();
+                dialog.dismiss();
+                return true;
+            }
+        });
         mReviewsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(position);
         mReviewButton.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +152,10 @@ public class ChocoDetailActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void addtocart(View view) {
+
     }
 
     private static class ReviewViewHolder extends RecyclerView.ViewHolder {
@@ -274,6 +297,54 @@ public class ChocoDetailActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public Dialog optionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Choose an Option")
+                .setItems(R.array.options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 2) {
+                            dialogInterface.dismiss();
+                        } else if (i == 1) {
+                            saveimage();
+
+                        }
+                    }
+                });
+        return builder.create();
+    }
+
+    private void saveimage() {
+        // save bitmap to cache directory
+        try {
+
+            File cachePath = new File(this.getCacheDir(), "images");
+            cachePath.mkdirs(); // don't forget to make the directory
+            FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void shareImage(File file) {
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        try {
+            startActivity(Intent.createChooser(intent, "Share Screenshot"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(ChocoDetailActivity.this, "No App Available", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

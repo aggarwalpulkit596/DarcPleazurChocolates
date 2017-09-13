@@ -174,11 +174,6 @@ public class Main2Activity extends AppCompatActivity
                     }
                 });
 
-                if(model.stars.containsKey(getUid())){
-                    viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_24);
-                }else {
-                    viewHolder.mStarView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-                }
                 
                 viewHolder.bindChocolate(model, new View.OnClickListener() {
                     @Override

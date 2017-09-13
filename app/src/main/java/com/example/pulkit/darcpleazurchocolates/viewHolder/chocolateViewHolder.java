@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
@@ -25,7 +26,7 @@ public class chocolateViewHolder extends RecyclerView.ViewHolder {
     public TextView mNameTextView;
     public TextView mPriceTextView;
     public TextView mStockTextView;
-    public ImageView mStarView;
+    public RatingBar mStarView;
 
 
     public chocolateViewHolder(View itemView) {

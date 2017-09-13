@@ -1,59 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.pulkit.darcpleazurchocolates.ChocoDetailActivity"
     tools:showIn="@layout/activity_choco_detail">
 
-    <com.daimajia.slider.library.SliderLayout
-        android:layout_width="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp"
-        android:layout_height="300dp"
-        android:id="@+id/image_slider"
-        app:auto_cycle="true"
-        app:indicator_visibility="visible" />
-    <LinearLayout
-        android:id="@+id/comment_form"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/image_slider"
-        android:weightSum="1.0">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-        <EditText
-            android:id="@+id/field_review_text"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:hint="Write a comment..."/>
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/image_slider"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            app:auto_cycle="true"
+            app:indicator_visibility="visible" />
 
         <Button
-            android:id="@+id/button_post_review"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
+            android:id="@+id/addtocart"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Post"/>
+            android:text="@string/add_to_cart"
+            android:layout_below="@id/image_slider"
+            android:onClick="addtocart"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/comment_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addtocart"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_reviews"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/comment_form" />
+            <EditText
+                android:id="@+id/field_review_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:hint="Write a comment..."
+                android:maxLines="1" />
 
+            <Button
+                android:id="@+id/button_post_review"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="Post" />
 
-</RelativeLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comment_form" />
+    </RelativeLayout>
+</ScrollView>

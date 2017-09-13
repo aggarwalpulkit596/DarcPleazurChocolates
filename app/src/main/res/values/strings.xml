@@ -1,4 +1,9 @@
 <resources>
+    <array name="options">
+        <item>Share</item>
+        <item>Save to gallery</item>
+        <item>Cancel</item>
+    </array>
     <string name="app_name">DarcPleazur Chocolates</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
@@ -36,4 +41,5 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_choco_detail">ChocoDetailActivity</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>
