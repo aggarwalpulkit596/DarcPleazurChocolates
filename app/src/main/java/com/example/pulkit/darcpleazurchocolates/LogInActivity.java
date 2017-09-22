@@ -73,6 +73,22 @@ public class LogInActivity extends AppCompatActivity implements
         bindingview();
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccesToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
         signInButton.setOnClickListener(this);
         facebookSignIn();
     }
@@ -194,28 +210,10 @@ public class LogInActivity extends AppCompatActivity implements
     }
 
     private void facebookSignIn() {
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookAccesToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.i("TAG", "gSignIn: kbsldblds" + "here it is3");
-
-        dialog.show();
         final AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
