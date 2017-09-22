@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.viewHolder.chocolateViewHolder;
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -132,6 +133,8 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_signout) {
 
             mAuth.signOut();
+            LoginManager.getInstance().logOut();
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

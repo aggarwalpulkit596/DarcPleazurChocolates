@@ -19,6 +19,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -41,7 +42,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
     private static final String TAG = "abcddw";
     private FirebaseAuth mAuth;
@@ -70,15 +71,10 @@ public class LogInActivity extends AppCompatActivity implements
             finish();
         }
         bindingview();
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions("email", "public_profile");
+        signInButton.setOnClickListener(this);
         facebookSignIn();
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gSignIn();
-            }
-        });
-
-
     }
 
 
@@ -91,8 +87,7 @@ public class LogInActivity extends AppCompatActivity implements
         btnReset = findViewById(R.id.btn_reset_password);
         signInButton = findViewById(R.id.btn_gSignIn);
         loginButton = findViewById(R.id.login_button);
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions("email", "public_profile");
+
 
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
@@ -265,12 +260,14 @@ public class LogInActivity extends AppCompatActivity implements
                             dialog.hide();
                         } else {
                             dialog.hide();
+                            LoginManager.getInstance().logOut();
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                LoginManager.getInstance().logOut();
                                 Toast.makeText(LogInActivity.this, "Email id Exist.Try using any other method", Toast.LENGTH_SHORT).show();
                             } else
                                 Toast.makeText(LogInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
-                        dialog.hide();
+
                     }
                 });
     }
@@ -284,4 +281,14 @@ public class LogInActivity extends AppCompatActivity implements
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.btn_gSignIn:
+                gSignIn();
+                break;
+        }
+
+    }
 }
