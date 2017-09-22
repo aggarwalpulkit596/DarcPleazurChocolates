@@ -20,8 +20,8 @@
             android:id="@+id/btn_guest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:layout_gravity="end"
+            android:background="@null"
             android:text="Continue As Guest >>"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
@@ -72,14 +72,17 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
+            android:onClick="buttonclicks"
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
+
         <Button
             android:id="@+id/btn_reset_password"
             android:layout_width="250dp"
             android:layout_height="18dp"
             android:layout_marginTop="10dp"
             android:background="@null"
+            android:onClick="buttonclicks"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
@@ -88,8 +91,15 @@
             android:id="@+id/btn_gSignIn"
             android:layout_width="250dp"
             android:layout_height="43dp"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"/>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"/>
 
         <!-- Link to Login Screen -->
 
@@ -98,6 +108,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:onClick="buttonclicks"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
             android:textColor="@color/white"

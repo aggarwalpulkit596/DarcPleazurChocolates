@@ -4,6 +4,8 @@
         <item>Save to gallery</item>
         <item>Cancel</item>
     </array>
+    <string name="facebook_app_id">166916607194456</string>
+
     <string name="app_name">DarcPleazur Chocolates</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>

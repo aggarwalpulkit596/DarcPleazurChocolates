@@ -39,7 +39,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     // Google Sign In SDK (only required for Google Sign In)
     compile 'com.google.android.gms:play-services-auth:11.2.2'
-    compile 'com.facebook.android:facebook-android-sdk:4.25.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.android.support:design:26.0.2'

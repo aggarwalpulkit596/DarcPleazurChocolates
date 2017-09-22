@@ -13,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity android:name=".SignUpActivity" />
         <activity
             android:name=".LogInActivity"
@@ -32,11 +36,12 @@
             android:name=".ChocoDetailActivity"
             android:label="@string/title_activity_choco_detail"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.myapp.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
