@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +37,7 @@ import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.Models.Comment;
 import com.example.pulkit.darcpleazurchocolates.Models.User;
 import com.example.pulkit.darcpleazurchocolates.Utils.Constants;
+import com.example.pulkit.darcpleazurchocolates.Utils.MySharedPreference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,6 +57,7 @@ import butterknife.ButterKnife;
 
 public class ChocoDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "Detail";
     Chocolates mChoco;
     String position;
     @BindView(R.id.image_slider)
@@ -66,6 +72,10 @@ public class ChocoDetailActivity extends AppCompatActivity {
 
     private ReviewAdapter mAdapter;
     private DatabaseReference mReviewsReference;
+    private int cartProductNumber = 0;
+
+    private MySharedPreference sharedPreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +84,11 @@ public class ChocoDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sharedPreference = new MySharedPreference(ChocoDetailActivity.this);
+
         if (getIntent().hasExtra(Constants.EXTRA_CHOCO)) {
             mChoco = (Chocolates) getIntent().getSerializableExtra(Constants.EXTRA_CHOCO);
             position = (String) getIntent().getSerializableExtra(Constants.POSITION);
-
         } else {
             throw new IllegalArgumentException("Detail activity must receive a chocolate Serializable");
         }
@@ -109,6 +120,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
             }
         });
         mReviewsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        Log.i(TAG, "onCreate: " + position);
 
     }
 
@@ -156,7 +168,25 @@ public class ChocoDetailActivity extends AppCompatActivity {
     }
 
     public void addtocart(View view) {
+        String productsFromCart = sharedPreference.retrieveProductFromCart();
+        if (productsFromCart.equals("")) {
+            List<Chocolates> cartProductList = new ArrayList<>();
+            cartProductList.add(mChoco);
+            String cartValue = gson.toJson(cartProductList);
+            sharedPreference.addProductToTheCart(cartValue);
+            cartProductNumber = cartProductList.size();
+        } else {
+            String productsInCart = sharedPreference.retrieveProductFromCart();
+            Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
 
+            List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
+            allNewProduct.add(mChoco);
+            String addAndStoreNewProduct = gson.toJson(allNewProduct);
+            sharedPreference.addProductToTheCart(addAndStoreNewProduct);
+            cartProductNumber = allNewProduct.size();
+        }
+        sharedPreference.addProductCount(cartProductNumber);
+        invalidateCart();
     }
 
     private static class ReviewViewHolder extends RecyclerView.ViewHolder {
@@ -346,6 +376,57 @@ public class ChocoDetailActivity extends AppCompatActivity {
         } catch (ActivityNotFoundException e) {
             Toast.makeText(ChocoDetailActivity.this, "No App Available", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Drawable buildCounterDrawable(int count, int backgroundImageId) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.shopping_layout, null);
+        view.setBackgroundResource(backgroundImageId);
+
+        if (count == 0) {
+            View counterTextPanel = view.findViewById(R.id.counterValuePanel);
+            counterTextPanel.setVisibility(View.GONE);
+        } else {
+            TextView textView = view.findViewById(R.id.count);
+            textView.setText("" + count);
+        }
+
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.setDrawingCacheEnabled(true);
+        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+
+        return new BitmapDrawable(getResources(), bitmap);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_shop);
+        int mCount = sharedPreference.retrieveProductCount();
+        menuItem.setIcon(buildCounterDrawable(mCount, R.drawable.cart));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_shop) {
+//            Intent checkoutIntent = new Intent(M.this, CheckoutActivity.class);
+//            startActivity(checkoutIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void invalidateCart() {
+        invalidateOptionsMenu();
     }
 
 }
