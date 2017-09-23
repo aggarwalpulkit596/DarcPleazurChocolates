@@ -4,31 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
-import com.example.pulkit.darcpleazurchocolates.viewHolder.chocolateViewHolder;
+import com.example.pulkit.darcpleazurchocolates.Fragments.dataFragement;
 import com.facebook.login.LoginManager;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-
-import java.util.ArrayList;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -38,16 +27,7 @@ public class Main2Activity extends AppCompatActivity
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    public static final String EXTRA_CHOCO = "choco";
-    public static final String POSITION = "";
 
-    @BindView(R.id.chocoRecyclerView) RecyclerView mRecyclerview;
-    private FirebaseRecyclerAdapter<Chocolates,chocolateViewHolder> mAdapter;
-    private LinearLayoutManager mManager;
-    private GridLayoutManager nManager;
-    
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +58,7 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mRecyclerview.setHasFixedSize(true);
+        setFragment(new dataFragement());
     }
 
     @Override
@@ -152,41 +131,6 @@ public class Main2Activity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        mManager = new LinearLayoutManager(this);
-        nManager = new GridLayoutManager(this,2);
-        mRecyclerview.setLayoutManager(mManager);
-        Query chocoQuery = getQuery(mDatabase);
-        Log.i("TAG", "onStart: "+chocoQuery);
-
-        mAdapter = new FirebaseRecyclerAdapter<Chocolates, chocolateViewHolder>(Chocolates.class,R.layout.chocolate_list_item,chocolateViewHolder.class,chocoQuery) {
-            @Override
-            protected void populateViewHolder(chocolateViewHolder viewHolder, final Chocolates model, final int position) {
-                final DatabaseReference chocoRef = getRef(position);
-                Log.i("TAG", "onStart: "+chocoRef);
-                Log.i("TAG", "onStart: "+model);
-
-
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(),ChocoDetailActivity.class);
-                        intent.putExtra(Main2Activity.EXTRA_CHOCO,model);
-                        intent.putExtra(Main2Activity.POSITION,chocoRef.getKey());
-                        startActivity(intent);
-
-                    }
-                });
-
-                
-                viewHolder.bindChocolate(model, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        
-                    }
-                });
-            }
-        };
-        mRecyclerview.setAdapter(mAdapter);
     }
 
     @Override
@@ -196,11 +140,14 @@ public class Main2Activity extends AppCompatActivity
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-    public String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
-    }
 
-    public Query getQuery(DatabaseReference databaseReference) {
-        return databaseReference.child("results");
+    public void setFragment(Fragment fragment){
+        if(fragment!=null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_main,fragment);
+            ft.commit();
+        }
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 }

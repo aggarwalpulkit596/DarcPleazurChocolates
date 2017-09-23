@@ -32,6 +32,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.Models.Comment;
 import com.example.pulkit.darcpleazurchocolates.Models.User;
+import com.example.pulkit.darcpleazurchocolates.Utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -73,9 +74,9 @@ public class ChocoDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getIntent().hasExtra(Main2Activity.EXTRA_CHOCO)) {
-            mChoco = (Chocolates) getIntent().getSerializableExtra(Main2Activity.EXTRA_CHOCO);
-            position = (String) getIntent().getSerializableExtra(Main2Activity.POSITION);
+        if (getIntent().hasExtra(Constants.EXTRA_CHOCO)) {
+            mChoco = (Chocolates) getIntent().getSerializableExtra(Constants.EXTRA_CHOCO);
+            position = (String) getIntent().getSerializableExtra(Constants.POSITION);
 
         } else {
             throw new IllegalArgumentException("Detail activity must receive a chocolate Serializable");
