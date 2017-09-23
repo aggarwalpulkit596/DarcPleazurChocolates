@@ -15,6 +15,7 @@ import com.example.pulkit.darcpleazurchocolates.ChocoDetailActivity;
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.R;
 import com.example.pulkit.darcpleazurchocolates.Utils.Constants;
+import com.example.pulkit.darcpleazurchocolates.Utils.Queries;
 import com.example.pulkit.darcpleazurchocolates.viewHolder.chocolateViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import butterknife.BindView;
+
+import static com.example.pulkit.darcpleazurchocolates.Utils.Queries.getQuery;
 
 /**
  * Created by Pulkit on 9/23/2017.
@@ -33,7 +36,6 @@ public class dataFragement extends Fragment {
     private FirebaseRecyclerAdapter<Chocolates, chocolateViewHolder> mAdapter;
     private LinearLayoutManager mManager;
     private DatabaseReference mDatabase;
-
 
     @Nullable
     @Override
@@ -79,7 +81,5 @@ public class dataFragement extends Fragment {
         mRecyclerview.setAdapter(mAdapter);
     }
 
-    public Query getQuery(DatabaseReference databaseReference) {
-        return databaseReference.child("results");
-    }
+
 }
