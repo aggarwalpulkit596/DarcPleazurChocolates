@@ -1,4 +1,4 @@
-package com.example.pulkit.darcpleazurchocolates;
+package com.example.pulkit.darcpleazurchocolates.Utils;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.pulkit.darcpleazurchocolates.LogInActivity;
+import com.example.pulkit.darcpleazurchocolates.MainActivity;
 import com.example.pulkit.darcpleazurchocolates.Models.User;
+import com.example.pulkit.darcpleazurchocolates.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -91,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     final String userId = mAuth.getCurrentUser().getUid();
                                     User user = new User("Pulkit Aggarwal",email+"","9582054664");
                                     mDatabase.child("users").child(userId).setValue(user);
-                                    startActivity(new Intent(SignUpActivity.this, Main2Activity.class));
+                                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                     finish();
                                 }
                             }

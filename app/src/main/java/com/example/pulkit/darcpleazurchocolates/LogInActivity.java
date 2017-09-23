@@ -1,6 +1,5 @@
 package com.example.pulkit.darcpleazurchocolates;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,10 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.pulkit.darcpleazurchocolates.Models.User;
+import com.example.pulkit.darcpleazurchocolates.Utils.ResetPasswordActivity;
+import com.example.pulkit.darcpleazurchocolates.Utils.SignUpActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -35,7 +35,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthActionCodeException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
@@ -67,7 +66,7 @@ public class LogInActivity extends AppCompatActivity implements
 
 
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(LogInActivity.this, Main2Activity.class));
+            startActivity(new Intent(LogInActivity.this, MainActivity.class));
             finish();
         }
         bindingview();
@@ -162,7 +161,7 @@ public class LogInActivity extends AppCompatActivity implements
                             }
                         } else {
                             dialog.hide();
-                            Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
+                            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
@@ -225,7 +224,7 @@ public class LogInActivity extends AppCompatActivity implements
                             User user = new User("Pulkit Aggarwal", credential + "", "9582054664");
                             mDatabase.child("users").child(userId).setValue(user);
                             dialog.hide();
-                            Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
+                            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -252,7 +251,7 @@ public class LogInActivity extends AppCompatActivity implements
                             final String userId = mAuth.getCurrentUser().getUid();
                             User user = new User(mAuth.getCurrentUser().getDisplayName(), mAuth.getCurrentUser().getEmail(), "9582054664");
                             mDatabase.child("users").child(userId).setValue(user);
-                            Intent intent = new Intent(LogInActivity.this, Main2Activity.class);
+                            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                             dialog.hide();

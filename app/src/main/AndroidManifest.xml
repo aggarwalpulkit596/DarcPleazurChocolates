@@ -17,7 +17,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".Utils.SignUpActivity" />
         <activity
             android:name=".LogInActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -27,9 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".Utils.ResetPasswordActivity" />
         <activity
-            android:name=".Main2Activity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

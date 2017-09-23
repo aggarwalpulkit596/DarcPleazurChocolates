@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import butterknife.ButterKnife;
 
 
-public class Main2Activity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -42,7 +42,7 @@ public class Main2Activity extends AppCompatActivity
                 if (user == null) {
                     // user auth state is changed - user is null
                     // launch login activity
-                    startActivity(new Intent(Main2Activity.this, LogInActivity.class));
+                    startActivity(new Intent(MainActivity.this, LogInActivity.class));
                     finish();
                 }
             }
@@ -74,7 +74,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
