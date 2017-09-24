@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -33,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 import java.util.ArrayList;
@@ -60,6 +63,10 @@ public class ChocoDetailActivity extends AppCompatActivity {
     private int cartProductNumber = 0;
     private Gson gson;
     private MySharedPreference sharedPreference;
+    private LinearLayout message, line1, line2, line3;
+    private EditText txtline1, txtline2, txtline3;
+    private TextView title, description, stock, price;
+    private boolean sms = true;
 
 
     @Override
@@ -70,7 +77,8 @@ public class ChocoDetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sharedPreference = new MySharedPreference(ChocoDetailActivity.this);
-
+        GsonBuilder builder = new GsonBuilder();
+        gson = builder.create();
         if (getIntent().hasExtra(Constants.EXTRA_CHOCO)) {
             mChoco = (Chocolates) getIntent().getSerializableExtra(Constants.EXTRA_CHOCO);
             position = (String) getIntent().getSerializableExtra(Constants.POSITION);
@@ -78,6 +86,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
             throw new IllegalArgumentException("Detail activity must receive a chocolate Serializable");
         }
         imageslider();
+        bindingview();
         mReviewsReference = FirebaseDatabase.getInstance().getReference()
                 .child("post-comments").child(position);
         mReviewButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +96,23 @@ public class ChocoDetailActivity extends AppCompatActivity {
             }
         });
         mReviewsRecycler.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void bindingview() {
+
+        message = findViewById(R.id.chocolate_message);
+        line1 = findViewById(R.id.message_line1);
+        line2 = findViewById(R.id.message_line2);
+        line3 = findViewById(R.id.message_line3);
+        txtline1 = findViewById(R.id.txtline1);
+        txtline2 = findViewById(R.id.txtline2);
+        txtline3 = findViewById(R.id.txtline3);
+        stock = findViewById(R.id.chocolate_stock);
+        description = findViewById(R.id.chocolate_description);
+        title = findViewById(R.id.chocolate_title);
+        price = findViewById(R.id.chocolate_price);
+
+
     }
 
     private void imageslider() {
@@ -107,7 +133,40 @@ public class ChocoDetailActivity extends AppCompatActivity {
         super.onStart();
         mAdapter = new ReviewAdapter(this, mReviewsReference);
         mReviewsRecycler.setAdapter(mAdapter);
+        title.setText(mChoco.getName());
+        price.setText("INR " + mChoco.getPrice() + ".00");
+        stock.setText(mChoco.getStock());
+        description.setText(mChoco.getDescription());
+        if (sms == mChoco.isMessage()) {
+            message.setVisibility(View.VISIBLE);
+            InputFilter[] FilterArray = new InputFilter[1];
+            FilterArray[0] = new InputFilter.LengthFilter(9);
+            txtline1.setFilters(FilterArray);
+            txtline2.setFilters(FilterArray);
+            txtline3.setFilters(FilterArray);
+            changingview(mChoco.getName());
+        }
+    }
 
+    private void changingview(String name) {
+
+        switch (name) {
+            case "2 Liner":
+                line3.setVisibility(View.GONE);
+                break;
+            case "Wedding Special Chocolate (Small)":
+                InputFilter[] FilterArray = new InputFilter[1];
+                FilterArray[0] = new InputFilter.LengthFilter(6);
+                txtline1.setFilters(FilterArray);
+                txtline2.setFilters(FilterArray);
+                txtline3.setFilters(FilterArray);
+            case "Wedding Special Chocolate (Large)":
+                InputFilter[] FilterArray8 = new InputFilter[1];
+                FilterArray8[0] = new InputFilter.LengthFilter(8);
+                txtline1.setFilters(FilterArray8);
+                txtline2.setFilters(FilterArray8);
+                txtline3.setFilters(FilterArray8);
+        }
     }
 
     @Override

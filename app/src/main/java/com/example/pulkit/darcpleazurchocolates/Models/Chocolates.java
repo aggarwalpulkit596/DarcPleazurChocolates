@@ -15,9 +15,10 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Chocolates implements Serializable {
     private String name;
-    private String price;
+    private int price;
     private String stock;
     private String description;
+    private boolean message;
     private List<String> images = new ArrayList<>();
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -42,11 +43,11 @@ public class Chocolates implements Serializable {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -58,11 +59,12 @@ public class Chocolates implements Serializable {
         this.images = images;
     }
 
-    public Chocolates(String name, String price, String stock, String description, List<String> images) {
+    public Chocolates(String name, int price, String stock, String description, boolean message, List<String> images) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.description = description;
+        this.message = message;
         this.images = images;
     }
 
@@ -72,5 +74,13 @@ public class Chocolates implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isMessage() {
+        return message;
+    }
+
+    public void setMessage(boolean message) {
+        this.message = message;
     }
 }

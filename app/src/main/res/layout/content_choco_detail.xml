@@ -31,13 +31,118 @@
             app:auto_cycle="true"
             app:indicator_visibility="visible" />
 
+        <TextView
+            android:id="@+id/chocolate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_slider"
+            android:text="Chocolate Name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/chocolate_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chocolate_title"
+            android:text="INR 399.00"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/chocolate_stock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chocolate_price"
+            android:text="IN STOCK"
+            android:textColor="#008000"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/chocolate_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chocolate_stock"
+            android:text="Show the shape of your heart to your loved ones with this super cool Swiss packing design of heart shaped chocolate box with 11 small heart shaped chocolates in it. What a lovely gift for any loved one and any occasion. Thoughtful and heart touching, you will be locked in your loved ones hearts after gifting them this." />
+
+        <LinearLayout
+            android:id="@+id/chocolate_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chocolate_description"
+            android:paddingLeft="30dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/message_line1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Message Line 1 : " />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtline1"
+                    android:inputType="text"
+                    android:hint="Happy" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/message_line2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Message Line 2 : "  />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtline2"
+                    android:inputType="text"
+                    android:hint="Birthday" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/message_line3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Message Line 3 : " />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtline3"
+                    android:inputType="text"
+                    android:hint="Pulkit" />
+            </LinearLayout>
+        </LinearLayout>
+
         <Button
             android:id="@+id/addtocart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_to_cart"
-            android:layout_below="@id/image_slider"
-            android:onClick="addtocart"/>
+            android:layout_below="@id/chocolate_message"
+            android:onClick="addtocart"
+            android:text="@string/add_to_cart" />
 
         <LinearLayout
             android:id="@+id/comment_form"

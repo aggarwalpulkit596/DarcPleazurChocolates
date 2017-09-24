@@ -48,7 +48,7 @@ public class chocolateViewHolder extends RecyclerView.ViewHolder {
         Log.i("TAG", "chocolates: " + chocolates.getName() + chocolates.getImages());
 
         mNameTextView.setText(chocolates.getName());
-        mPriceTextView.setText(chocolates.getPrice());
+        mPriceTextView.setText("INR "+chocolates.getPrice()+".00");
         mStarView.setOnClickListener(starClickListener);
         mStockTextView.setText(chocolates.getStock());
     }
