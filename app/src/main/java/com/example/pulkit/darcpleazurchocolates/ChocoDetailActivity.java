@@ -1,5 +1,6 @@
 package com.example.pulkit.darcpleazurchocolates;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -283,8 +284,8 @@ public class ChocoDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_shop) {
-//            Intent checkoutIntent = new Intent(M.this, CheckoutActivity.class);
-//            startActivity(checkoutIntent);
+            Intent checkoutIntent = new Intent(this, CheckoutActivity.class);
+            startActivity(checkoutIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

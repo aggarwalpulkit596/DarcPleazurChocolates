@@ -4,4 +4,9 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="logo_w_h">50dp</dimen>
+    <dimen name="_8sdp">8.00dp</dimen>
+    <dimen name="_16sdp">16.00dp</dimen>
+    <dimen name="_15sdp">15.00dp</dimen>
+    <dimen name="_13sdp">13.00dp</dimen>
+    <dimen name="_14sdp">14.00dp</dimen>
 </resources>

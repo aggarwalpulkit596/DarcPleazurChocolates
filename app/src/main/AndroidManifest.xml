@@ -36,6 +36,8 @@
             android:name=".ChocoDetailActivity"
             android:label="@string/title_activity_choco_detail"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CheckoutActivity" />
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"
