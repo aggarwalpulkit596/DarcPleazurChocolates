@@ -136,7 +136,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
         mAdapter = new ReviewAdapter(this, mReviewsReference);
         mReviewsRecycler.setAdapter(mAdapter);
         title.setText(mChoco.getName());
-        price.setText("INR "+mChoco.getPrice()+".00");
+        price.setText("INR " + mChoco.getPrice() + ".00");
         stock.setText(mChoco.getStock());
         description.setText(mChoco.getDescription());
         if (mChoco.isMessage()) {
@@ -222,27 +222,30 @@ public class ChocoDetailActivity extends AppCompatActivity {
                     return;
                 }
             }
+            mChoco.setSms(txtline1.getText().toString() + txtline2.getText() + txtline3.getText());
         }
-            String productsFromCart = sharedPreference.retrieveProductFromCart();
-            if (productsFromCart.equals("")) {
-                List<Chocolates> cartProductList = new ArrayList<>();
-                cartProductList.add(mChoco);
-                String cartValue = gson.toJson(cartProductList);
-                sharedPreference.addProductToTheCart(cartValue);
-                cartProductNumber = cartProductList.size();
-            } else {
-                String productsInCart = sharedPreference.retrieveProductFromCart();
-                Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
-
-                List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
-                allNewProduct.add(mChoco);
-                String addAndStoreNewProduct = gson.toJson(allNewProduct);
-                sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-                cartProductNumber = allNewProduct.size();
-            }
-            sharedPreference.addProductCount(cartProductNumber);
-            invalidateCart();
+        String productsFromCart = sharedPreference.retrieveProductFromCart();
+        if (productsFromCart.equals("")) {
+            List<Chocolates> cartProductList = new ArrayList<>();
+            cartProductList.add(mChoco);
+            String cartValue = gson.toJson(cartProductList);
+            sharedPreference.addProductToTheCart(cartValue);
+            cartProductNumber = cartProductList.size();
+        } else {
+            String productsInCart = sharedPreference.retrieveProductFromCart();
+            Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
+            List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
+            allNewProduct.add(mChoco);
+            String addAndStoreNewProduct = gson.toJson(allNewProduct);
+            sharedPreference.addProductToTheCart(addAndStoreNewProduct);
+            cartProductNumber = allNewProduct.size();
         }
+        sharedPreference.addProductCount(cartProductNumber);
+        txtline1.setText("");
+        txtline2.setText("");
+        txtline3.setText("");
+        invalidateCart();
+    }
 
     private Drawable buildCounterDrawable(int count, int backgroundImageId) {
         LayoutInflater inflater = LayoutInflater.from(this);

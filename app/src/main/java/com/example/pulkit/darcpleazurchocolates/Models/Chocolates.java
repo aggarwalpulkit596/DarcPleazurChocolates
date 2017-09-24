@@ -19,6 +19,7 @@ public class Chocolates implements Serializable {
     private String stock;
     private String description;
     private boolean message;
+    private String sms;
     private List<String> images = new ArrayList<>();
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -82,5 +83,13 @@ public class Chocolates implements Serializable {
 
     public void setMessage(boolean message) {
         this.message = message;
+    }
+
+    public String getSms() {
+        return sms;
+    }
+
+    public void setSms(String sms) {
+        this.sms = sms;
     }
 }

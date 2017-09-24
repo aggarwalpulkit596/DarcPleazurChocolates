@@ -10,13 +10,17 @@ import android.widget.Toast;
 
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.R;
+import com.example.pulkit.darcpleazurchocolates.Utils.MySharedPreference;
 import com.example.pulkit.darcpleazurchocolates.viewHolder.CheckRecyclerViewHolder;
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class CheckRecyclerViewAdapter extends RecyclerView.Adapter<CheckRecyclerViewHolder> {
 
     private Context context;
-
+    private Gson gson;
+    private MySharedPreference sharedPreference;
     private List<Chocolates> mProductObject;
 
 

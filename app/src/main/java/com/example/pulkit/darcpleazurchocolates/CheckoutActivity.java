@@ -31,6 +31,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private double mSubTotal = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

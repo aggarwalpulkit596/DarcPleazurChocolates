@@ -43,15 +43,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LogInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private static final String TAG = "abcddw";
     private FirebaseAuth mAuth;
     private CallbackManager callbackManager;//for facebook
     private EditText inputEmail, inputPassword;
-    private Button btnReset, btnSignup, btnLogin;
     private LoginButton loginButton;
     private SignInButton signInButton;
     private static final int RC_SIGN_IN = 9001;
-    private GoogleApiClient mGoogleApiClient;
     private DatabaseReference mDatabase;
     public ProgressDialog dialog;
 
@@ -97,9 +94,9 @@ public class LogInActivity extends AppCompatActivity implements
 
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
-        btnSignup = findViewById(R.id.btn_signup);
-        btnLogin = findViewById(R.id.btn_login);
-        btnReset = findViewById(R.id.btn_reset_password);
+        Button btnSignup = findViewById(R.id.btn_signup);
+        Button btnLogin = findViewById(R.id.btn_login);
+        Button btnReset = findViewById(R.id.btn_reset_password);
         signInButton = findViewById(R.id.btn_gSignIn);
         loginButton = findViewById(R.id.login_button);
 
@@ -176,7 +173,7 @@ public class LogInActivity extends AppCompatActivity implements
                 .build();
         // [END config_signin]
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
