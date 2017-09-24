@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +68,6 @@ public class ChocoDetailActivity extends AppCompatActivity {
     private LinearLayout message, line1, line2, line3;
     private EditText txtline1, txtline2, txtline3;
     private TextView title, description, stock, price;
-    private boolean sms = true;
 
 
     @Override
@@ -134,10 +135,10 @@ public class ChocoDetailActivity extends AppCompatActivity {
         mAdapter = new ReviewAdapter(this, mReviewsReference);
         mReviewsRecycler.setAdapter(mAdapter);
         title.setText(mChoco.getName());
-        price.setText("INR " + mChoco.getPrice() + ".00");
+        price.setText("INR "+mChoco.getPrice()+".00");
         stock.setText(mChoco.getStock());
         description.setText(mChoco.getDescription());
-        if (sms == mChoco.isMessage()) {
+        if (mChoco.isMessage()) {
             message.setVisibility(View.VISIBLE);
             InputFilter[] FilterArray = new InputFilter[1];
             FilterArray[0] = new InputFilter.LengthFilter(9);
@@ -205,26 +206,42 @@ public class ChocoDetailActivity extends AppCompatActivity {
     }
 
     public void addtocart(View view) {
-        String productsFromCart = sharedPreference.retrieveProductFromCart();
-        if (productsFromCart.equals("")) {
-            List<Chocolates> cartProductList = new ArrayList<>();
-            cartProductList.add(mChoco);
-            String cartValue = gson.toJson(cartProductList);
-            sharedPreference.addProductToTheCart(cartValue);
-            cartProductNumber = cartProductList.size();
-        } else {
-            String productsInCart = sharedPreference.retrieveProductFromCart();
-            Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
-
-            List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
-            allNewProduct.add(mChoco);
-            String addAndStoreNewProduct = gson.toJson(allNewProduct);
-            sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-            cartProductNumber = allNewProduct.size();
+        if (mChoco.isMessage()) {
+            if (TextUtils.isEmpty(txtline1.getText())) {
+                txtline1.setError("Cannot be Empty");
+                return;
+            }
+            if (TextUtils.isEmpty(txtline2.getText())) {
+                txtline2.setError("Cannot be Empty");
+                return;
+            }
+            if (!Objects.equals(mChoco.getName(), "2 Liner")) {
+                if (TextUtils.isEmpty(txtline2.getText())) {
+                    txtline3.setError("Cannot be Empty");
+                    return;
+                }
+            }
         }
-        sharedPreference.addProductCount(cartProductNumber);
-        invalidateCart();
-    }
+            String productsFromCart = sharedPreference.retrieveProductFromCart();
+            if (productsFromCart.equals("")) {
+                List<Chocolates> cartProductList = new ArrayList<>();
+                cartProductList.add(mChoco);
+                String cartValue = gson.toJson(cartProductList);
+                sharedPreference.addProductToTheCart(cartValue);
+                cartProductNumber = cartProductList.size();
+            } else {
+                String productsInCart = sharedPreference.retrieveProductFromCart();
+                Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
+
+                List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
+                allNewProduct.add(mChoco);
+                String addAndStoreNewProduct = gson.toJson(allNewProduct);
+                sharedPreference.addProductToTheCart(addAndStoreNewProduct);
+                cartProductNumber = allNewProduct.size();
+            }
+            sharedPreference.addProductCount(cartProductNumber);
+            invalidateCart();
+        }
 
     private Drawable buildCounterDrawable(int count, int backgroundImageId) {
         LayoutInflater inflater = LayoutInflater.from(this);
