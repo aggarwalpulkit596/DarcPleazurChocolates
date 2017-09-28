@@ -1,9 +1,11 @@
 package com.example.pulkit.darcpleazurchocolates;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -69,6 +72,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
     private LinearLayout message, line1, line2, line3;
     private EditText txtline1, txtline2, txtline3;
     private TextView title, description, stock, price;
+    public static List<Chocolates> cartProductList = new ArrayList<>();
 
 
     @Override
@@ -206,6 +210,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
                 });
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void addtocart(View view) {
         if (mChoco.isMessage()) {
             if (TextUtils.isEmpty(txtline1.getText())) {
@@ -224,27 +229,30 @@ public class ChocoDetailActivity extends AppCompatActivity {
             }
             mChoco.setSms(txtline1.getText().toString() + txtline2.getText() + txtline3.getText());
         }
-        String productsFromCart = sharedPreference.retrieveProductFromCart();
-        if (productsFromCart.equals("")) {
-            List<Chocolates> cartProductList = new ArrayList<>();
-            cartProductList.add(mChoco);
-            String cartValue = gson.toJson(cartProductList);
-            sharedPreference.addProductToTheCart(cartValue);
-            cartProductNumber = cartProductList.size();
-        } else {
-            String productsInCart = sharedPreference.retrieveProductFromCart();
-            Chocolates[] storedProducts = gson.fromJson(productsInCart, Chocolates[].class);
-            List<Chocolates> allNewProduct = convertObjectArrayToListObject(storedProducts);
-            allNewProduct.add(mChoco);
-            String addAndStoreNewProduct = gson.toJson(allNewProduct);
-            sharedPreference.addProductToTheCart(addAndStoreNewProduct);
-            cartProductNumber = allNewProduct.size();
-        }
-        sharedPreference.addProductCount(cartProductNumber);
-        txtline1.setText("");
-        txtline2.setText("");
-        txtline3.setText("");
-        invalidateCart();
+        ChocolateDatabse cb = ChocolateDatabse.getInstance(this);
+        final ChocolateDao dao = cb.chocolateDao();
+        new AsyncTask<Void, Void, Void>() {
+
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dao.addtocart(mChoco);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Toast.makeText(ChocoDetailActivity.this, "Product has been added to Cart", Toast.LENGTH_SHORT).show();
+                cartProductList.add(mChoco);
+                cartProductNumber = cartProductList.size();
+                sharedPreference.addProductCount(cartProductNumber);
+                txtline1.setText("");
+                txtline2.setText("");
+                txtline3.setText("");
+                invalidateCart();
+
+            }
+        }.execute();
     }
 
     private Drawable buildCounterDrawable(int count, int backgroundImageId) {
@@ -298,10 +306,5 @@ public class ChocoDetailActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    private List<Chocolates> convertObjectArrayToListObject(Chocolates[] allProducts) {
-        List<Chocolates> mProduct = new ArrayList<>();
-        Collections.addAll(mProduct, allProducts);
-        return mProduct;
-    }
 
 }

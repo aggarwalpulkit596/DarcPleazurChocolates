@@ -1,7 +1,9 @@
 package com.example.pulkit.darcpleazurchocolates;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +33,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private double mSubTotal = 0;
 
+    List<Chocolates> productList = new ArrayList<>();
 
+    CheckRecyclerViewAdapter mAdapter;
+
+
+    @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +56,26 @@ public class CheckoutActivity extends AppCompatActivity {
         checkRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(CheckoutActivity.this));
 
         // get content of cart
-        MySharedPreference mShared = new MySharedPreference(CheckoutActivity.this);
 
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        ChocolateDatabse cb = ChocolateDatabse.getInstance(this);
+        final ChocolateDao dao = cb.chocolateDao();
+        new AsyncTask<Void, Void, List<Chocolates>>() {
+            @Override
+            protected List<Chocolates> doInBackground(Void... voids) {
+                return dao.getAllChocolates();
+            }
 
-        Chocolates[] addCartProducts = gson.fromJson(mShared.retrieveProductFromCart(), Chocolates[].class);
-        List<Chocolates> productList = convertObjectArrayToListObject(addCartProducts);
+            @Override
+            protected void onPostExecute(List<Chocolates> chocolates) {
+                productList.clear();
+                productList.add((Chocolates) chocolates);
+                mAdapter.notifyDataSetChanged();
 
-        CheckRecyclerViewAdapter mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
+            }
+        }.execute();
+
+
+        mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
         checkRecyclerView.setAdapter(mAdapter);
 
         mSubTotal = getTotalPrice(productList);
@@ -84,22 +102,6 @@ public class CheckoutActivity extends AppCompatActivity {
 //        });
     }
 
-    private List<Chocolates> convertObjectArrayToListObject(Chocolates[] allProducts){
-        List<Chocolates> mProduct = new ArrayList<Chocolates>();
-        Collections.addAll(mProduct, allProducts);
-        return mProduct;
-    }
-
-    private int returnQuantityByProductName(String productName, List<Chocolates> mProducts){
-        int quantityCount = 0;
-        for(int i = 0; i < mProducts.size(); i++){
-            Chocolates pObject = mProducts.get(i);
-            if(pObject.getName().trim().equals(productName.trim())){
-                quantityCount++;
-            }
-        }
-        return quantityCount;
-    }
 
     private double getTotalPrice(List<Chocolates> mProducts){
         double totalCost = 0;

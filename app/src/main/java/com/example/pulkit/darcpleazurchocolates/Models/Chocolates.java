@@ -1,5 +1,10 @@
 package com.example.pulkit.darcpleazurchocolates.Models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
@@ -11,19 +16,20 @@ import java.util.Map;
 /**
  * Created by Pulkit on 9/8/2017.
  */
-
+@Entity(tableName = "chocolates")
 @IgnoreExtraProperties
 public class Chocolates implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String name;
     private int price;
     private String stock;
     private String description;
     private boolean message;
     private String sms;
-    private List<String> images = new ArrayList<>();
-    public Map<String, Boolean> stars = new HashMap<>();
+    private ArrayList<String> images = new ArrayList<>();
 
-
+    @Ignore
     public Chocolates() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
@@ -52,15 +58,15 @@ public class Chocolates implements Serializable {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public ArrayList<String> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
     }
 
-    public Chocolates(String name, int price, String stock, String description, boolean message, List<String> images) {
+    public Chocolates(String name, int price, String stock, String description, boolean message, ArrayList<String> images) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -91,5 +97,13 @@ public class Chocolates implements Serializable {
 
     public void setSms(String sms) {
         this.sms = sms;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
