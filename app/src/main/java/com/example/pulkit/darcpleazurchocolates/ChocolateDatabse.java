@@ -13,7 +13,7 @@ import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
  * Created by Pulkit on 9/26/2017.
  */
 
-@Database(entities = {Chocolates.class},version = 2)
+@Database(entities = {Chocolates.class},version = 1)
 @TypeConverters({Converters.class})
 public abstract class ChocolateDatabse extends RoomDatabase {
 

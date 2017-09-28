@@ -15,16 +15,6 @@ public class MySharedPreference {
         prefs = context.getSharedPreferences(Constants.SHARED_PREF, Context.MODE_PRIVATE);
     }
 
-    public void addProductToTheCart(String product){
-        SharedPreferences.Editor edits = prefs.edit();
-        edits.putString(Constants.PRODUCT_ID, product);
-        edits.apply();
-    }
-
-    public String retrieveProductFromCart(){
-        return prefs.getString(Constants.PRODUCT_ID, "");
-    }
-
     public void addProductCount(int productCount){
         SharedPreferences.Editor edits = prefs.edit();
         edits.putInt(Constants.PRODUCT_COUNT, productCount);

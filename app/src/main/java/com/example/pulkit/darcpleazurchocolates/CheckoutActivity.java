@@ -68,9 +68,8 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(List<Chocolates> chocolates) {
                 productList.clear();
-                productList.add((Chocolates) chocolates);
+                productList.addAll(chocolates);
                 mAdapter.notifyDataSetChanged();
-
             }
         }.execute();
 
