@@ -1,5 +1,6 @@
 package com.example.pulkit.darcpleazurchocolates.Models;
 
+
 /**
  * Created by Pulkit on 9/6/2017.
  */
@@ -8,6 +9,9 @@ public class User {
 
     private String name;
     private String email;
+    private String phoneno;
+    private Address address;
+
 
     public String getName() {
         return name;
@@ -33,9 +37,17 @@ public class User {
         this.phoneno = phoneno;
     }
 
-    private String phoneno;
+    public Address getAddress() {
+        return address;
+    }
 
-    public User(){
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+
+
+    public User() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
     }
 
@@ -45,4 +57,13 @@ public class User {
         this.email = email;
         this.phoneno = phoneno;
     }
+    public User(String name, String email, String phoneno,Address address) {
+        this.address = address;
+        this.name = name;
+        this.email = email;
+        this.phoneno = phoneno;
+    }
+
+
 }
+

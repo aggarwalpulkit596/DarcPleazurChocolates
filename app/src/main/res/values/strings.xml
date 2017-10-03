@@ -48,4 +48,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_choco_detail">ChocoDetailActivity</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="edit_your_address">Edit your address</string>
+    <string name="full_name">Full Name</string>
+    <string name="_10_digit_mobile_no">10 Digit mobile No</string>
+    <string name="_6_digits_pincode">6 Digits Pincode</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="landmark">Landmark</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
 </resources>

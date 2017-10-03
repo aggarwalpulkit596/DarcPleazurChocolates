@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,11 +17,8 @@ import com.example.pulkit.darcpleazurchocolates.Adapters.CheckRecyclerViewAdapte
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
 import com.example.pulkit.darcpleazurchocolates.Utils.MySharedPreference;
 import com.example.pulkit.darcpleazurchocolates.Utils.SimpleDividerItemDecoration;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -37,6 +35,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
     CheckRecyclerViewAdapter mAdapter;
 
+    private MySharedPreference sharedPreference;
+
+    private int cartProductNumber = 0;
+
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -48,6 +50,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setTitle("Over Cart");
 
         subTotal = findViewById(R.id.sub_total);
+        sharedPreference = new MySharedPreference(CheckoutActivity.this);
 
         checkRecyclerView = findViewById(R.id.checkout_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CheckoutActivity.this);
@@ -70,15 +73,45 @@ public class CheckoutActivity extends AppCompatActivity {
                 productList.clear();
                 productList.addAll(chocolates);
                 mAdapter.notifyDataSetChanged();
+                mSubTotal = getTotalPrice(productList);
+                subTotal.setText("Subtotal excluding tax and shipping: " + String.valueOf(mSubTotal));
             }
         }.execute();
 
 
-        mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList);
+        mAdapter = new CheckRecyclerViewAdapter(CheckoutActivity.this, productList, new CheckRecyclerViewAdapter.ChocolatesClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                Chocolates model = productList.get(position);
+//                Intent intent = new Intent(CheckoutActivity.this, ChocoDetailActivity.class);
+//                intent.putExtra(Constants.EXTRA_CHOCO, model);
+//                intent.putExtra(Constants.POSITION, position);
+//                startActivity(intent);
+            }
+
+            @Override
+            public void onRemoveClicked(final int position) {
+                new AsyncTask<Void, Void, List<Chocolates>>() {
+                    @Override
+                    protected List<Chocolates> doInBackground(Void... voids) {
+                        dao.deletefromcart(productList.get(position));
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<Chocolates> chocolates) {
+                        productList.remove(position);
+                        mAdapter.notifyDataSetChanged();
+                        mSubTotal = getTotalPrice(productList);
+                        subTotal.setText("Subtotal excluding tax and shipping: " + String.valueOf(mSubTotal));
+//                        cartProductNumber = productList.size();
+//                        sharedPreference.addProductCount(cartProductNumber);
+                    }
+                }.execute();
+            }
+        });
         checkRecyclerView.setAdapter(mAdapter);
 
-        mSubTotal = getTotalPrice(productList);
-        subTotal.setText("Subtotal excluding tax and shipping: " + String.valueOf(mSubTotal));
 
         Button shoppingButton = findViewById(R.id.shopping);
         shoppingButton.setOnClickListener(new View.OnClickListener() {
@@ -88,25 +121,27 @@ public class CheckoutActivity extends AppCompatActivity {
                 startActivity(shoppingIntent);
             }
         });
-//
-//        Button checkButton = (Button)findViewById(R.id.checkout);
-//        assert checkButton != null;
-//        checkButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent paymentIntent = new Intent(CheckoutActivity.this, PayPalCheckoutActivity.class);
-//                paymentIntent.putExtra("TOTAL_PRICE", mSubTotal);
-//                startActivity(paymentIntent);
-//            }
-//        });
+
+        Button checkButton = (Button)findViewById(R.id.checkout);
+        assert checkButton != null;
+        checkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent paymentIntent = new Intent(CheckoutActivity.this, PaymentActivity.class);
+                paymentIntent.putExtra("TOTAL_PRICE", mSubTotal);
+                startActivity(paymentIntent);
+            }
+        });
     }
 
 
-    private double getTotalPrice(List<Chocolates> mProducts){
+    private double getTotalPrice(List<Chocolates> mProducts) {
+
         double totalCost = 0;
-        for(int i = 0; i < mProducts.size(); i++){
+        for (int i = 0; i < mProducts.size(); i++) {
             Chocolates pObject = mProducts.get(i);
             totalCost = totalCost + pObject.getPrice();
+            Log.i(TAG, "getTotalPrice: " + pObject.getPrice());
         }
         return totalCost;
     }

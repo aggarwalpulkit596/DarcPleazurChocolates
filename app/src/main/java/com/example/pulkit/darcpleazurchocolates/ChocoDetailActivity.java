@@ -94,7 +94,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
         imageslider();
         bindingview();
         mReviewsReference = FirebaseDatabase.getInstance().getReference()
-                .child("post-comments").child(position);
+                .child("post-comments").child( position);
         mReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,6 +152,7 @@ public class ChocoDetailActivity extends AppCompatActivity {
             txtline3.setFilters(FilterArray);
             changingview(mChoco.getName());
         }
+
     }
 
     private void changingview(String name) {
@@ -255,31 +256,6 @@ public class ChocoDetailActivity extends AppCompatActivity {
         }.execute();
     }
 
-    private Drawable buildCounterDrawable(int count, int backgroundImageId) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.shopping_layout, null);
-        view.setBackgroundResource(backgroundImageId);
-
-        if (count == 0) {
-            View counterTextPanel = view.findViewById(R.id.counterValuePanel);
-            counterTextPanel.setVisibility(View.GONE);
-        } else {
-            TextView textView = view.findViewById(R.id.count);
-            textView.setText("" + count);
-        }
-
-        view.measure(
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-
-        view.setDrawingCacheEnabled(true);
-        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-        view.setDrawingCacheEnabled(false);
-
-        return new BitmapDrawable(getResources(), bitmap);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -304,6 +280,31 @@ public class ChocoDetailActivity extends AppCompatActivity {
 
     private void invalidateCart() {
         invalidateOptionsMenu();
+    }
+    private Drawable buildCounterDrawable(int count, int backgroundImageId) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.shopping_layout, null);
+        view.setBackgroundResource(backgroundImageId);
+
+        if (count == 0) {
+            View counterTextPanel = view.findViewById(R.id.counterValuePanel);
+            counterTextPanel.setVisibility(View.GONE);
+        } else {
+            TextView textView = view.findViewById(R.id.count);
+            textView.setText("" + count);
+        }
+
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.setDrawingCacheEnabled(true);
+        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+
+        return new BitmapDrawable(getResources(), bitmap);
     }
 
 
