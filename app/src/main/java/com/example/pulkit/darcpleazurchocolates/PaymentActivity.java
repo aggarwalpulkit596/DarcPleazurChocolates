@@ -37,7 +37,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
-                if(user.getAddress()!=null){
+                if(user.getAddress()==null){
                     startActivity(new Intent(PaymentActivity.this, AddressActivity.class));
                 }
             }

@@ -34,6 +34,7 @@
                 android:background="@color/white"
                 android:gravity="center|start"
                 android:hint="@string/full_name"
+                android:inputType="textCapWords"
                 android:paddingStart="10dp"
                 android:textSize="20sp" />
 
@@ -45,7 +46,10 @@
                 android:gravity="center|start"
                 android:hint="@string/_10_digit_mobile_no"
                 android:paddingStart="10dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:inputType="phone"
+                android:maxLength="10"
+                />
 
             <EditText
                 android:id="@+id/pincode"
@@ -55,6 +59,8 @@
                 android:gravity="center|start"
                 android:hint="@string/_6_digits_pincode"
                 android:paddingStart="10dp"
+                android:inputType="number"
+                android:maxLength="6"
                 android:textSize="20sp" />
 
             <EditText
@@ -65,6 +71,7 @@
                 android:gravity="center|start"
                 android:hint="@string/address_line_1"
                 android:paddingStart="10dp"
+                android:inputType="textCapWords"
                 android:textSize="20sp" />
 
             <EditText
@@ -73,6 +80,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:gravity="center|start"
+                android:inputType="textCapWords"
                 android:hint="@string/landmark"
                 android:paddingStart="10dp"
                 android:textSize="20sp" />
@@ -82,6 +90,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:gravity="center|start"
+                android:inputType="textCapWords"
                 android:hint="@string/city"
                 android:paddingStart="10dp"
                 android:textSize="20sp" />
@@ -93,11 +102,17 @@
                 android:background="@color/white"
                 android:gravity="center|start"
                 android:hint="@string/state"
+                android:inputType="textCapWords"
                 android:paddingStart="10dp"
                 android:textSize="20sp" />
         </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_address"
+        android:onClick="saveaddress"/>
 
 </LinearLayout>

@@ -12,7 +12,7 @@ public class Address {
     private String Landmark;
     private String Mobile;
     private String State;
-    private String pincode;
+    private String Pincode;
 
     public String getAddressLine1() {
         return AddressLine1;
@@ -73,14 +73,14 @@ public class Address {
         Landmark = landmark;
         Mobile = mobile;
         State = state;
-        this.pincode = pincode;
+        this.Pincode = pincode;
     }
 
     public String getPincode() {
-        return pincode;
+        return Pincode;
     }
 
     public void setPincode(String pincode) {
-        this.pincode = pincode;
+        this.Pincode = pincode;
     }
 }
