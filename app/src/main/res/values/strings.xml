@@ -57,4 +57,7 @@
     <string name="state">State</string>
     <string name="city">City</string>
     <string name="save_address">Save Address</string>
+    <string name="place_your_order">Place Your Order</string>
+    <string name="payment_information">Payment Information</string>
+    <string name="order_details">Order Details</string>
 </resources>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.pulkit.darcpleazurchocolates.Adapters.CheckRecyclerViewAdapter;
 import com.example.pulkit.darcpleazurchocolates.Models.Chocolates;
+import com.example.pulkit.darcpleazurchocolates.Utils.Constants;
 import com.example.pulkit.darcpleazurchocolates.Utils.MySharedPreference;
 import com.example.pulkit.darcpleazurchocolates.Utils.SimpleDividerItemDecoration;
 
@@ -128,7 +129,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent paymentIntent = new Intent(CheckoutActivity.this, PaymentActivity.class);
-                paymentIntent.putExtra("TOTAL_PRICE", mSubTotal);
+                paymentIntent.putExtra(Constants.EXTRA_TOTAL, mSubTotal);
                 startActivity(paymentIntent);
             }
         });
